@@ -1,0 +1,13 @@
+uvicorn
+sqlmodel
+alembic
+sqlalchemy
+fastapi
+pydantic
+pytest
+passlib
+jwt
+psycopg2-binary
+python-multipart
+pytest-cov
+python-dotenv
