@@ -16,6 +16,7 @@ sys.path.append(parent)
 from database import engine
 import pytest
 from models.users import User
+from sqlalchemy.exc import IntegrityError
 from sqlmodel import Session
 
 
@@ -29,5 +30,6 @@ def test_insert_duplicate_email():
     session = Session(engine)
     user = User(email="a@b.c", hashed_password="p")
     user.encrypt_password()
-    session.add(user)
-    session.commit()
+    with pytest.raises(IntegrityError):
+        session.add(user)
+        session.commit()
