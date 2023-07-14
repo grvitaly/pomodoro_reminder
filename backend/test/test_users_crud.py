@@ -62,6 +62,3 @@ def test_user_generate_token():
 
 def test_user_get_current_user():
     pass
-
-
-test_user_generate_token()
