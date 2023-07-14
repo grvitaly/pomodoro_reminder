@@ -1,6 +1,6 @@
 from models.users import User
 
-import jwt as _jwt
+from jwt import encode, decode
 
 from fastapi import Depends, HTTPException, APIRouter
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
@@ -25,7 +25,7 @@ async def get_user_by_email(email: str, session: Session):
 
 async def create_token(user: User):
     user_dict = dict(id=user.id, email=user.email)
-    access_token = _jwt.encode(user_dict, JWT_SECRET, algorithm="HS256")
+    access_token = encode(user_dict, JWT_SECRET, algorithm="HS256")
     return dict(
         access_token=access_token,
         token_type="bearer",
@@ -37,7 +37,7 @@ async def get_current_user(
     token: str = Depends(oauth2schema),
 ):
     try:
-        payload = _jwt.decode(token, JWT_SECRET, algorithms=["HS256"])
+        payload = decode(token, JWT_SECRET, algorithms=["HS256"])
         user = session.query(User).get(payload["id"])
     except:
         raise HTTPException(status_code=401, detail="Invalid user or password")

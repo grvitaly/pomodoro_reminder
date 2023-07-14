@@ -6,8 +6,9 @@ fastapi
 pydantic
 pytest
 passlib
-jwt
+PyJWT
 psycopg2-binary
 python-multipart
 pytest-cov
 python-dotenv
+httpx
