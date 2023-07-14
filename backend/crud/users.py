@@ -87,6 +87,6 @@ async def generate_token(
     return await create_token(user)
 
 
-@router.get("/api/users/me", response_model=User)
+@router.get("/users/me", response_model=User)
 async def get_user(user: User = Depends(get_current_user)):
     return user

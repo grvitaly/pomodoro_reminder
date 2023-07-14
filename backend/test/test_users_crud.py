@@ -46,7 +46,7 @@ def test_user_create():
     assert response_json["token_type"] == "bearer"
 
 
-def test_user_generate_token():
+def get_the_token():
     response = httpx.post(
         "http://localhost:8000/api/token",
         data={"username": "a@b.c", "password": "p", "grant_type": "password"},
@@ -55,10 +55,35 @@ def test_user_generate_token():
 
     assert response.status_code == 200
     response_json = response.json()
+    return response_json
+
+
+def test_user_generate_token():
+    response_json = get_the_token()
     assert response_json["access_token"] != None
     assert response_json["access_token"] != ""
     assert response_json["token_type"] == "bearer"
 
 
+def test_not_authenticated_user_get_current_user():
+    response = httpx.get("http://localhost:8000/api/users/me")
+
+    assert response.status_code == 401
+    response_json = response.json()
+    assert response_json["detail"] == "Not authenticated"
+
+
 def test_user_get_current_user():
-    pass
+    token = get_the_token()
+
+    response = httpx.get(
+        "http://localhost:8000/api/users/me",
+        headers={
+            "accept": "application/json",
+            "Authorization": "Bearer " + token["access_token"],
+        },
+    )
+
+    assert response.status_code == 200
+    resp_json = json.load(response)
+    assert resp_json["email"] == "a@b.c"
