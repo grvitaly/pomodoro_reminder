@@ -39,7 +39,11 @@ async def get_leads(
     list = session.query(Reminder).filter_by(owner_id=user.id)
     if list.count() == 0:
         raise HTTPException(status_code=401, detail="You don't have any reminders")
-    return list
+
+    lst = []
+    for item in list:
+        lst.append(item)
+    return lst
 
 
 @router.get("/{reminder_id}", status_code=200)
@@ -69,17 +73,17 @@ async def update_reminder(
     session: Session = Depends(get_session),
 ):
     rs = reminder_selector(reminder_id=updated_reminder.id, session=session)
-    reminder_dict = rs.dict(
-        exclude_unset=True, exclude={"date_created", "date_last_updated"}
-    )
-    for key, value in reminder_dict.items():
-        setattr(rs, key, value)
+
+    rs.is_music_on = updated_reminder.is_music_on
+    rs.is_music_shuffle = updated_reminder.is_music_shuffle
+    rs.current_music_list_id = updated_reminder.current_music_list_id
+    rs.music_list_song_number = updated_reminder.music_list_song_number
+    rs.position_within_song = updated_reminder.position_within_song
 
     rs.owner_id = user.id
-    rs.date_last_updated = datetime.utcnow
+    rs.date_last_updated = datetime.utcnow()
 
     session.add(rs)
     session.commit()
-    session.refresh()
 
     return rs
