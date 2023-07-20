@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, View, Button, Image } from "react-native";
+import { StyleSheet, Text, View, Button, Image, TouchableOpacity } from "react-native";
 import * as WebBrowser from "expo-web-browser";
 
-import { HandleGoogleLogin, GoogleUseAuthRequest, RemoveValueFromGoogleStore } from "../components/GoogleLogin";
+import { HandleGoogleLogin, GoogleUseAuthRequest, RemoveValueFromGoogleStore, GoogleSigninButton } from "../components/GoogleLogin";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -23,13 +23,37 @@ export default function App() {
   return (
     <View style={styles.container}>
       {!userInfo ? (
-        <Button
-          title="Sign in with Google"
-          disabled={!request}
-          onPress={() => {
-            promptAsync();
-          }}
-        />
+        <View>
+          <TouchableOpacity
+            disabled={!request}
+            onPress={() => {
+              promptAsync();
+            }}
+          >
+            <Image
+              source={require("../assets/SignInWithGoogle.png")}
+              style={styles.images}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Image
+              source={require("../assets/SignInWithFacebook.png")}
+              style={styles.images}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Image
+              source={require("../assets/SignInWithGithub.png")}
+              style={styles.images}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Image
+              source={require("../assets/SignInWithEmail.png")}
+              style={styles.images}
+            />
+          </TouchableOpacity>
+        </View>
       ) : (
         <View style={styles.card}>
           {userInfo?.picture && (
@@ -53,6 +77,7 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  images: { width: 220, height: 43, margin: 10 },
   container: {
     flex: 1,
     backgroundColor: "#fff",
