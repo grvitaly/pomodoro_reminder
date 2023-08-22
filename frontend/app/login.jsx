@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Button, Image, TouchableOpacity } from "react-native";
 import * as WebBrowser from "expo-web-browser";
 
-import { HandleGoogleLogin, GoogleUseAuthRequest, RemoveValueFromGoogleStore, GoogleSigninButton } from "../components/GoogleLogin";
+import { HandleGoogleLogin, GoogleUseAuthRequest, RemoveValueFromGoogleStore } from "../components/GoogleLogin";
 
 WebBrowser.maybeCompleteAuthSession();
 

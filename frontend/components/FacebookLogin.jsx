@@ -2,13 +2,14 @@ import { useState, useEffect } from "react";
 import { Button, Image, StyleSheet, Text, View } from "react-native";
 import * as Facebook from "expo-auth-session/providers/facebook";
 import * as WebBrowser from "expo-web-browser";
+import { FACEBOOK_ID } from "./env";
 
 WebBrowser.maybeCompleteAuthSession();
 
 export default function App() {
   const [user, setUser] = useState(null);
   const [request, response, promptAsync] = Facebook.useAuthRequest({
-    clientId: "599537091836865" // change this for yours
+    clientId: FACEBOOK_ID // change this for yours
   });
 
   useEffect(() => {
